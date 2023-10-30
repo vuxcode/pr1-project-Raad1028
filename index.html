@@ -5,13 +5,72 @@
 <script>
 
 var rollTestBtn = document.getElementById("rollTestBtn")
-
+var D20Result = null
 rollTestBtn.addEventListener("click", testRoll);
 
 function D20roll() {
 
-    D20Result = Math.random();
-
+    D20Result = Math.random().toFixed(3);
+    if (D20Result < 0.05) {
+        D20Result = 1
+    }
+    else if (D20Result < 0.1) {
+        D20Result = 2
+    }
+    else if (D20Result < 0.15) {
+        D20Result = 3
+    }
+    else if (D20Result < 0.2) {
+        D20Result = 4
+    }
+    else if (D20Result < 0.25) {
+        D20Result = 5
+    }
+    else if (D20Result < 0.3) {
+        D20Result = 6
+    }
+    else if (D20Result < 0.35) {
+        D20Result = 7
+    }
+    else if (D20Result < 0.4) {
+        D20Result = 8
+    }
+    else if (D20Result < 0.45) {
+        D20Result = 9
+    }
+    else if (D20Result < 0.5) {
+        D20Result = 10
+    }
+    else if (D20Result < 0.55) {
+        D20Result = 11
+    }
+    else if (D20Result < 0.6) {
+        D20Result = 12
+    }
+    else if (D20Result < 0.65) {
+        D20Result = 13
+    }
+    else if (D20Result < 0.7) {
+        D20Result = 14
+    }
+    else if (D20Result < 0.75) {
+        D20Result = 15
+    }
+    else if (D20Result < 0.8) {
+        D20Result = 16
+    }
+    else if (D20Result < 0.85) {
+        D20Result = 17
+    }
+    else if (D20Result < 0.9) {
+        D20Result = 18
+    }
+    else if (D20Result < 0.95) {
+        D20Result = 19
+    }
+    else if (D20Result < 1) {
+        D20Result = 20
+    }
 }
 
 function testRoll() {
