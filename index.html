@@ -1,7 +1,7 @@
 <meta name="color-scheme" content="dark">
 
 <button id="rollTestBtn">Test the D20 roll</button>
-
+<div id="text-test"></div>
 <script>
 
 var rollTestBtn = document.getElementById("rollTestBtn")
@@ -11,11 +11,12 @@ rollTestBtn.addEventListener("click", testRoll);
 function D20roll() {
 
     D20Result = Math.random();
+
 }
 
 function testRoll() {
     D20roll();
-    document.write(D20Result);
+    document.getElementById("text-test").innerHTML = D20Result;
 }
 
 </script>
