@@ -1,15 +1,20 @@
 <meta name="color-scheme" content="dark">
-
+<!-- A button to test the diceroll function -->
 <button id="rollTestBtn">Test the D20 roll</button>
+<!-- This is where the results of the dicerolls are displayed. -->
 <div id="text-test"></div>
 <script>
 
+// Creates a variable for the rollTestBtn button.
 var rollTestBtn = document.getElementById("rollTestBtn")
+// Creates the variable with a placeholder value.
 var D20Result = null
+// Links the test button to the testRoll function.
 rollTestBtn.addEventListener("click", testRoll);
 
+// Create a function for the dice roll
 function D20roll() {
-
+    // First the fuction generates a number and then checks which group it fits in with
     D20Result = Math.random().toFixed(3);
     if (D20Result < 0.05) {
         D20Result = 1
@@ -73,9 +78,12 @@ function D20roll() {
     }
 }
 
+// Create a function meant only to be used for testing purposes.
 function testRoll() {
+    // Executes the D20roll function
     D20roll();
-    document.getElementById("text-test").innerHTML += D20Result + "<br>";
+    // Displays the result on the page.
+    document.getElementById("text-test").innerHTML += "You rolled a '" + D20Result + "' on your d20 <br>";
 }
 
 </script>
