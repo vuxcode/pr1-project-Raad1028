@@ -1,1 +1,21 @@
-<!-- Start writing your project code in this file! -->
+<meta name="color-scheme" content="dark">
+
+<button id="rollTestBtn">Test the D20 roll</button>
+
+<script>
+
+var rollTestBtn = document.getElementById("rollTestBtn")
+
+rollTestBtn.addEventListener("click", testRoll);
+
+function D20roll() {
+
+    D20Result = Math.random();
+}
+
+function testRoll() {
+    D20roll();
+    document.write(D20Result);
+}
+
+</script>
