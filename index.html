@@ -7,10 +7,9 @@
 <script>
 // Create the variables with placeholder values.
 var D20Result = null
-var playerRoll = null
-var enemyRoll = null
+var playerAction = ["action", "roll", "damage"]
 
-var enemyAction = null
+var enemyAction = ["action", "roll", "damage"]
 
 var playerMaxHP = 50
 var playerCurrentHP = 50
@@ -102,27 +101,35 @@ function testRoll() {
 }
 
 function regularAtk() {
+    playerAction[0] = "regatk"
     D20roll();
-    playerRoll = D20Result
+    playerAction[1] = D20Result
     enemyTurn();
-    if (enemyAction = "parry") {
+    if (enemyAction[0] == "parry") {
         D20roll();
+        enemyAction[1] = D20Result
+        if (playerAction[1] > enemyAction[1]) {
+            D20roll();
+            playerAction[2] = D20Result / 2
+            console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".")
+        }
     }
 }
 
 function enemyTurn() {
     D20roll();
     if (D20Result <= 5) {
-        enemyAction = "regatk"
+        enemyAction[0] = "regatk"
     }
     else if (D20Result <= 10) {
-        enemyAction = "hvyatk"
+        enemyAction[0] = "heavyatk"
     }
     else if (D20Result <= 15) {
-        enemyAction = "parry"
+        enemyAction[0] = "parry"
     }
     else {
-        enemyAction = "dodge"
+        enemyAction[0] = "dodge"
     }
+    console.log("Enemy action is: " + enemyAction[0])
 }
 </script>
