@@ -5,7 +5,7 @@
 <div id="text-test"></div>
 <button id="regularAtkBtn">Regular Attack</button>
 <script>
-// Create the variables with placeholder values.
+// Create the variables and arrays with placeholder values.
 var D20Result = null
 var playerAction = ["action", "roll", "damage"]
 
@@ -99,29 +99,46 @@ function testRoll() {
     // Displays the result on the page.
     document.getElementById("text-test").innerHTML += "You rolled a '" + D20Result + "' on your d20 <br>";
 }
-
+// Create a function for the regular attack.
 function regularAtk() {
+    // Stores the player action in an array.
     playerAction[0] = "regatk"
+    // Rolls the dice for the player.
     D20roll();
+    // Stores the dice result in an array.
     playerAction[1] = D20Result
+    // Executes the enemy turn function.
     enemyTurn();
+    // If the enemy's action is parry, this part will execute
     if (enemyAction[0] == "parry") {
-        D20roll();
-        enemyAction[1] = D20Result
-        if (playerAction[1] > enemyAction[1]) {         
-            console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".")
+        
+        // If the player rolled higher than the enemy, this part will execute.
+        if (playerAction[1] > enemyAction[1]) {
+            console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".");
+            regularAtkExecute();
+            
         }
+        // If the player rolled lower than the enemy, this part will execute.
         else {
+            // Rolls the dice that will decide the damage dealt.
             D20roll();
+            // Damage dealt is the dice result divided by 2
             enemyAction[2] = D20Result / 2
+            // In the case the result has decimals, result is rounded up.
             enemyAction[2] = Math.ceil(enemyAction[2])
             console.log("Enemy parry was successful. Enemy rolled a " + enemyAction[1] + " while the player rolled a " + playerAction[1] + ". Enemy deals " + enemyAction[2] + " damage to the player.")
+            console.log("Player attack missed because of the enemy's successful parry")
         }
     }
-    
+    // If the enemy's action is dodge, this part will execute.
+    else if (enemyAction[0] == "dodge") {
+        D20roll();
+        enemyAction[1] = D20Result
+    }
 }
-
+// Create a function which decides the enemy's turn.
 function enemyTurn() {
+    // Rolls a dice which decides what action the enemy will do for their turn
     D20roll();
     if (D20Result <= 5) {
         enemyAction[0] = "regatk"
@@ -134,7 +151,31 @@ function enemyTurn() {
     }
     else {
         enemyAction[0] = "dodge"
-    }
-    console.log("Enemy action is: " + enemyAction[0])
+    }    
+    // Rolls the dice for the enemy.
+    D20roll();
+    // Stores the dice result in an array.
+    enemyAction[1] = D20Result
+    console.log("Enemy action is '" + enemyAction[0] + "' with a dice roll of '" + enemyAction[1] + "'")
+}
+
+// Create a function which does the calculation which decides if a regular attack hits, and how much damage it would deal.
+function regularAtkExecute() {
+    // If the player dice roll is bigger than 10, attack hits.
+    if (playerAction[1] > 10 ) {
+            // Rolls a dice which decides how much damage the player will deal.
+                D20roll();
+                // Stores the result of the dice in an array.
+                playerAction[2] = D20Result / 2
+                // If the result has decimals, the result is rounded up.
+                playerAction[2] = Math.ceil(playerAction[2])
+                console.log("Player rolled a '" + playerAction[1] + "' and hits the regular attack and deals '" + playerAction[2] + "' damage to the enemy.")
+            }
+
+            else {
+                // If the player rolled 10 or below, damage dealt is set to 0
+                playerAction[2] = 0
+                console.log("Player rolled a '" + playerAction[1] + "' and misses the regular attack")
+            }
 }
 </script>
