@@ -3,14 +3,29 @@
 <button id="rollTestBtn">Test the D20 roll</button>
 <!-- This is where the results of the dicerolls are displayed. -->
 <div id="text-test"></div>
+<button id="regularAtkBtn">Regular Attack</button>
 <script>
+// Create the variables with placeholder values.
+var D20Result = null
+var playerRoll = null
+var enemyRoll = null
 
+var enemyAction = null
+
+var playerMaxHP = 50
+var playerCurrentHP = 50
+var enemyMaxHP = 50
+var enemyCurrentHP = 50
 // Creates a variable for the rollTestBtn button.
 var rollTestBtn = document.getElementById("rollTestBtn")
-// Creates the variable with a placeholder value.
-var D20Result = null
 // Links the test button to the testRoll function.
 rollTestBtn.addEventListener("click", testRoll);
+
+//Creates a variable for the regularAtkBtn button.
+var regularAtkBtn = document.getElementById("regularAtkBtn")
+// Links the regularAtkBtn to the regularAtk function.
+regularAtkBtn.addEventListener("click", regularAtk)
+
 
 // Create a function for the dice roll
 function D20roll() {
@@ -86,4 +101,28 @@ function testRoll() {
     document.getElementById("text-test").innerHTML += "You rolled a '" + D20Result + "' on your d20 <br>";
 }
 
+function regularAtk() {
+    D20roll();
+    playerRoll = D20Result
+    enemyTurn();
+    if (enemyAction = "parry") {
+        D20roll();
+    }
+}
+
+function enemyTurn() {
+    D20roll();
+    if (D20Result <= 5) {
+        enemyAction = "regatk"
+    }
+    else if (D20Result <= 10) {
+        enemyAction = "hvyatk"
+    }
+    else if (D20Result <= 15) {
+        enemyAction = "parry"
+    }
+    else {
+        enemyAction = "dodge"
+    }
+}
 </script>
