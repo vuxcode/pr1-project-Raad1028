@@ -108,12 +108,17 @@ function regularAtk() {
     if (enemyAction[0] == "parry") {
         D20roll();
         enemyAction[1] = D20Result
-        if (playerAction[1] > enemyAction[1]) {
-            D20roll();
-            playerAction[2] = D20Result / 2
+        if (playerAction[1] > enemyAction[1]) {         
             console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".")
         }
+        else {
+            D20roll();
+            enemyAction[2] = D20Result / 2
+            enemyAction[2] = Math.ceil(enemyAction[2])
+            console.log("Enemy parry was successful. Enemy rolled a " + enemyAction[1] + " while the player rolled a " + playerAction[1] + ". Enemy deals " + enemyAction[2] + " damage to the player.")
+        }
     }
+    
 }
 
 function enemyTurn() {
