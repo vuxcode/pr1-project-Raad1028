@@ -11,7 +11,7 @@ var D20Result = null
 var playerAction = ["action", "roll", "damage", "dodgeAdvantage"]
 
 var enemyAction = ["action", "roll", "damage", "dodgeAdvantage"]
-
+var turnCounter = 0
 var playerMaxHP = 50
 var playerCurrentHP = 50
 var enemyMaxHP = 50
@@ -106,7 +106,10 @@ function testRoll() {
 }
 // Create a function for the regular attack.
 function regularAtk() {
+    console.log(" ")
     // Stores the player action in an array.
+    turnCounter += 1
+    console.log("Turn " + turnCounter + ":")
     playerAction[0] = "regatk"
     // Rolls the dice for the player.
     D20roll();
