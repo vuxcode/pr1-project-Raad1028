@@ -273,35 +273,46 @@ function enemyTurn() {
     enemyAction[1] = D20Result
     console.log("Enemy action is '" + enemyAction[0] + "' with a dice roll of '" + enemyAction[1] + "'")
 }
- 
+
+// Function that activates if the enemy action is regatk
 function enemyRegAtk() {
+    // If the enemy rolls above 10, this part executes.
     if (enemyAction[1] > 10) {
         D20roll()
+        // The damage dealt is decided here
         enemyAction[2] = Math.ceil(D20Result / 2)
         console.log("Enemy regular attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
     }
+    // If the enemy rolls below 11, this part executes
     else {
+        // A regatk roll below 11 deals 0 damage.
         enemyAction[2] = 0
         console.log("Enemy missed their regular attack with a dice roll of '" + enemyAction[1] + "'")
     }
 }
+// Function that activates if the enemy action is heavyatk
 function enemyHeavyAtk() {
+    // If the enemy rolls above 12, this part executes
     if (enemyAction[1] > 12) {
         D20roll()
+        // The damage dealt is decided here
         enemyAction[2] = Math.ceil(D20Result * 0.8)
         console.log("Enemy heavy attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
     }
+    // If the enemy rolls below 13, this part executes
     else {
+        // A heavyatk roll below 13 deals 0 damage
         enemyAction[2] = 0
         console.log("Enemy missed their heavy attack with a dice roll of '" + enemyAction[1] + "'")
     }
 }
+// A function that keeps track of what turn the battle is on.
 function turnCount() {
     console.log(" ")
     turnCounter += 1
     console.log("Turn " + turnCounter + ":")
 }
-
+// A function that rolls the dice for the player.
 function playerRoll() {
     // Rolls the dice for the player.
     D20roll();
