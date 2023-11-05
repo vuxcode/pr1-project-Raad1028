@@ -188,6 +188,17 @@ function regularAtk() {
             }
         }
     }
+    else {
+        if (playerAction[1] > 10) {
+            D20roll()
+            playerAction[2] = Math.ceil(D20Result / 2)
+            console.log("Player regular attack hit with a dice roll of '" + playerAction[1] + "'. Player deals '" + playerAction[2] + "' to the enemy.")
+        }
+        else {
+            playerAction[2] = 0
+            console.log("Player missed their regular attack with a dice roll of '" + playerAction[1] + "'")
+        }
+    }
 }
 // Create a function which decides the enemy's turn.
 function enemyTurn() {
@@ -211,6 +222,6 @@ function enemyTurn() {
     enemyAction[1] = D20Result
     console.log("Enemy action is '" + enemyAction[0] + "' with a dice roll of '" + enemyAction[1] + "'")
 }
-
+ 
 
 </script>
