@@ -118,22 +118,7 @@ function regularAtk() {
         // If the player rolled higher than the enemy, this part will execute.
         if (playerAction[1] > enemyAction[1]) {
             console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".");
-            // If the player dice roll is bigger than 10, attack hits.
-            if (playerAction[1] > 10 ) {
-            // Rolls a dice which decides how much damage the player will deal.
-                D20roll();
-                // Stores the result of the dice in an array.
-                playerAction[2] = D20Result / 2
-                // If the result has decimals, the result is rounded up.
-                playerAction[2] = Math.ceil(playerAction[2])
-                console.log("Player rolled a '" + playerAction[1] + "' and hits the regular attack and deals '" + playerAction[2] + "' damage to the enemy.")
-            }
-
-            else {
-                // If the player rolled 10 or below, damage dealt is set to 0
-                playerAction[2] = 0
-                console.log("Player rolled a '" + playerAction[1] + "' and misses the regular attack")
-            }
+            playerRegAtk();
             
         }
         // If the player rolled lower than the enemy, this part will execute.
@@ -214,19 +199,7 @@ function regularAtk() {
     }
     // If the enemy didn't pick "dodge" or "parry", this part executes.
     else {
-        // If the player rolled above a 10, this part executes.
-        if (playerAction[1] > 10) {
-            D20roll()
-            // Calculates the dice roll
-            playerAction[2] = Math.ceil(D20Result / 2)
-            console.log("Player regular attack hit with a dice roll of '" + playerAction[1] + "'. Player deals '" + playerAction[2] + "' to the enemy")
-        }
-        // If the player rolled a 10 or below, this part executes.
-        else {
-            // A regatk roll between 1-10 deals no damage.
-            playerAction[2] = 0
-            console.log("Player missed their regular attack with a dice roll of '" + playerAction[1] + "'")
-        }
+       playerRegAtk();
         
     }
     // If the enemy action is regatk, execute the enemyRegAtk function.
@@ -248,6 +221,10 @@ function heavyAtk() {
     playerRoll();
     //Executes the enemy turn function.
     enemyTurn();
+    // If the enemy's action is parry, this part will execute
+    if (enemyAction[0] == "parry") {
+        
+    }
 }
 
 
@@ -319,5 +296,23 @@ function playerRoll() {
     // Stores the dice result in an array.
     playerAction[1] = D20Result
     console.log("Player action is '" + playerAction[0] + "' with a dice roll of '" + playerAction[1] + "'")
+}
+
+function playerRegAtk() {
+    if (playerAction[1] > 10 ) {
+            // Rolls a dice which decides how much damage the player will deal.
+                D20roll();
+                // Stores the result of the dice in an array.
+                playerAction[2] = D20Result / 2
+                // If the result has decimals, the result is rounded up.
+                playerAction[2] = Math.ceil(playerAction[2])
+                console.log("Player rolled a '" + playerAction[1] + "' and hits the regular attack and deals '" + playerAction[2] + "' damage to the enemy.")
+            }
+
+            else {
+                // If the player rolled 10 or below, damage dealt is set to 0
+                playerAction[2] = 0
+                console.log("Player rolled a '" + playerAction[1] + "' and misses the regular attack")
+            }
 }
 </script>
