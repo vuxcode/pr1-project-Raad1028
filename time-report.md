@@ -9,3 +9,8 @@
   - Started working on the different actions, focusing on the regular attack today.
   - Created a way to determine what the enemy will do for their turn.
   - Made it possible quickly see what each button press does by looking in the console.
+
+- 2023-10-31 16:00 Worked for 2.5 hours.
+  - The regular attack action is now at a state where it accounts for all different dice outcomes.
+  - Started working on the heavy attack action, was easier since it works almost the same as the regular attack, so I mostly copied code from the regular attack.
+  - Made some repeated code into functions instead to make the code fewer lines, although there is more to improve upon here.
