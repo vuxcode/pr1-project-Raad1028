@@ -192,12 +192,19 @@ function regularAtk() {
         if (playerAction[1] > 10) {
             D20roll()
             playerAction[2] = Math.ceil(D20Result / 2)
-            console.log("Player regular attack hit with a dice roll of '" + playerAction[1] + "'. Player deals '" + playerAction[2] + "' to the enemy.")
+            console.log("Player regular attack hit with a dice roll of '" + playerAction[1] + "'. Player deals '" + playerAction[2] + "' to the enemy")
         }
         else {
             playerAction[2] = 0
             console.log("Player missed their regular attack with a dice roll of '" + playerAction[1] + "'")
         }
+        
+    }
+    if (enemyAction[0] == "regatk") {
+        enemyRegAtk()
+    }
+    if (enemyAction[0] == "heavyatk") {
+        enemyHeavyAtk()
     }
 }
 // Create a function which decides the enemy's turn.
@@ -223,5 +230,26 @@ function enemyTurn() {
     console.log("Enemy action is '" + enemyAction[0] + "' with a dice roll of '" + enemyAction[1] + "'")
 }
  
-
+function enemyRegAtk() {
+    if (enemyAction[1] > 10) {
+        D20roll()
+        enemyAction[2] = Math.ceil(D20Result / 2)
+        console.log("Enemy regular attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
+    }
+    else {
+        enemyAction[2] = 0
+        console.log("Enemy missed their regular attack with a dice roll of '" + enemyAction[1] + "'")
+    }
+}
+function enemyHeavyAtk() {
+    if (enemyAction[1] > 12) {
+        D20roll()
+        enemyAction[2] = Math.ceil(D20Result * 0.8)
+        console.log("Enemy heavy attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
+    }
+    else {
+        enemyAction[2] = 0
+        console.log("Enemy missed their heavy attack with a dice roll of '" + enemyAction[1] + "'")
+    }
+}
 </script>
