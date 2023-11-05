@@ -303,13 +303,15 @@ function heavyAtk() {
             enemyAction[3] = 1
         }
     }
+    // If the enemy action is not "dodge" or "parry", playerHeavyAtk is executed.
     else {
         playerHeavyAtk();
     }
+    // If the enemy action is regatk, executes the enemyRegAtk function.
     if (enemyAction[0] == "regatk") {
         enemyRegAtk()
     }
-    
+    // If the enemy action is heavyatk, executes the enemyHeavyAtk function
     if (enemyAction[0] == "heavyatk") {
         enemyHeavyAtk()
     }
