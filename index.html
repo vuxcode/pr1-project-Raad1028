@@ -5,6 +5,7 @@
 <div id="text-test"></div>
 <button id="regularAtkBtn">Regular Attack</button>
 <button id="heavyAtkBtn">Heavy Attack</button>
+<button id="parryBtn">Parry<button>
 <script>
 // Create the variables and arrays with placeholder values.
 var D20Result = null
@@ -17,19 +18,27 @@ var playerCurrentHP = 50
 var enemyMaxHP = 50
 var enemyCurrentHP = 50
 var damagePreModify = 0
+// Variables deciding the modifier for the damage calculation for each action.
+var regAtkMod = 0.5
+var heavyAtkMod = 0.8
+var parryMod = 0.5
+
 // Creates a variable for the rollTestBtn button.
 var rollTestBtn = document.getElementById("rollTestBtn")
 // Links the test button to the testRoll function.
 rollTestBtn.addEventListener("click", testRoll);
-
 //Creates a variable for the regularAtkBtn button.
 var regularAtkBtn = document.getElementById("regularAtkBtn")
 // Links the regularAtkBtn to the regularAtk function.
 regularAtkBtn.addEventListener("click", regularAtk)
-
+// Creates a variable for the heavyAtBtn button.
 var heavyAtkBtn = document.getElementById("heavyAtkBtn")
-
+// Links the heavyAtkBtn to the heavyAtk function.
 heavyAtkBtn.addEventListener("click", heavyAtk)
+// Creates a variable for the parryBtn
+var parryBtn = document.getElementById("parryBtn")
+// Links the parryBtn to the parry function
+parryBtn.addEventListener("click", parry)
 
 // Create a function for the dice roll
 function D20roll() {
@@ -104,7 +113,7 @@ function testRoll() {
     // Displays the result on the page.
     document.getElementById("text-test").innerHTML += "You rolled a '" + D20Result + "' on your d20 <br>";
 }
-// Create a function for the regular attack.
+// function that triggers when the regular attack button is clicked.
 function regularAtk() {
     turnCount();
     // Stores the player action in an array.
@@ -114,7 +123,6 @@ function regularAtk() {
     enemyTurn();
     // If the enemy's action is parry, this part will execute
     if (enemyAction[0] == "parry") {
-        
         // If the player rolled higher than the enemy, this part will execute.
         if (playerAction[1] > enemyAction[1]) {
             console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".");
@@ -125,10 +133,8 @@ function regularAtk() {
         else {
             // Rolls the dice that will decide the damage dealt.
             D20roll();
-            // Damage dealt is the dice result divided by 2
-            enemyAction[2] = D20Result / 2
-            // In the case the result has decimals, result is rounded up.
-            enemyAction[2] = Math.ceil(enemyAction[2])
+            // Calculation for damage dealt.
+            enemyAction[2] = Math.ceil(D20Result * parryMod)
             console.log("Enemy parry was successful. Enemy rolled a " + enemyAction[1] + " while the player rolled a " + playerAction[1] + ". Enemy deals " + enemyAction[2] + " damage to the player.")
             console.log("Player attack missed because of the enemy's successful parry")
         }
@@ -211,7 +217,7 @@ function regularAtk() {
         enemyHeavyAtk()
     }
 }
-// Create a function for the heavy attack.
+// Function that triggers when the heavy attack button is clicked.
 function heavyAtk() {
     // Tracks and writes the current turn number in console.
     turnCount();
@@ -233,10 +239,8 @@ function heavyAtk() {
         else {
             // Rolls the dice that will decide the damage dealt.
             D20roll();
-            // Damage dealt is the dice result divided by 2
-            enemyAction[2] = D20Result / 2
-            // In the case the result has decimals, result is rounded up.
-            enemyAction[2] = Math.ceil(enemyAction[2])
+            // Calculation for damage dealt.
+            enemyAction[2] = Math.ceil(D20Result * parryMod)
             console.log("Enemy parry was successful. Enemy rolled a " + enemyAction[1] + " while the player rolled a " + playerAction[1] + ". Enemy deals " + enemyAction[2] + " damage to the player.")
             console.log("Player attack missed because of the enemy's successful parry")
         }
@@ -316,7 +320,43 @@ function heavyAtk() {
         enemyHeavyAtk()
     }
 }
-
+// Function that triggers when the parry button is clicked.
+function parry() {
+    // Tracks and writes the current turn number in console.
+    turnCount();
+    // Stores the player action in an array.
+    playerAction[0] = "parry"
+    // Rolls and stores the player dice roll.
+    playerRoll();
+    //Executes the enemy turn function.
+    enemyTurn();
+    // If the enemy's action is parry, this part will execute
+    if (enemyAction[0] == "parry") {
+        
+        // If the player rolled higher than the enemy, this part will execute.
+        if (playerAction[1] > enemyAction[1]) {
+            D20roll();
+            playerAction[2] = Math.ceil(D20Result * parryMod)
+            console.log("Both combatants parries. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ". Player wins the clinch and deals '" + playerAction[2] + "'' to the enemy.");
+            playerParryAtk();
+            
+        }
+        // If the player rolled the same as the enemy, this part will execute.
+        else if (playerAction[1] == enemyAction[1]) {
+            console.log("Both combatants parries. Enemy rolled a " + enemyAction[1] + "against the player's " + playerAction[1] + ". The clinch is a draw and no damage is dealt this turn.")
+        }
+        // If the player rolled lower than the enemy, this part will execute.
+        else {
+            // Rolls the dice that will decide the damage dealt.
+            D20roll();
+            // Damage dealt is calculated.
+            enemyAction[2] = Math.ceil(D20Result * parryMod)            
+            console.log("Enemy parry was successful. Enemy rolled a " + enemyAction[1] + " while the player rolled a " + playerAction[1] + ". Enemy deals " + enemyAction[2] + " damage to the player.")
+            console.log("Player attack missed because of the enemy's successful parry")
+        }
+    
+    }
+}
 
 // Create a function which decides the enemy's turn.
 function enemyTurn() {
@@ -347,7 +387,7 @@ function enemyRegAtk() {
     if (enemyAction[1] > 10) {
         D20roll()
         // The damage dealt is decided here
-        enemyAction[2] = Math.ceil(D20Result / 2)
+        enemyAction[2] = Math.ceil(D20Result * regAtkMod)
         console.log("Enemy regular attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
     }
     // If the enemy rolls below 11, this part executes
@@ -363,7 +403,7 @@ function enemyHeavyAtk() {
     if (enemyAction[1] > 12) {
         D20roll()
         // The damage dealt is decided here
-        enemyAction[2] = Math.ceil(D20Result * 0.8)
+        enemyAction[2] = Math.ceil(D20Result * heavyAtkMod)
         console.log("Enemy heavy attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
     }
     // If the enemy rolls below 13, this part executes
@@ -393,7 +433,7 @@ function playerRegAtk() {
          // Rolls a dice which decides how much damage the player will deal.
         D20roll();
         // Stores the result of the dice in an array.
-        playerAction[2] = D20Result / 2
+        playerAction[2] = D20Result * regAtkMod
         // If the result has decimals, the result is rounded up.
         playerAction[2] = Math.ceil(playerAction[2])
         console.log("Player rolled a '" + playerAction[1] + "' and hits the regular attack and deals '" + playerAction[2] + "' damage to the enemy.")
@@ -411,7 +451,7 @@ function playerHeavyAtk() {
          // Rolls a dice which decides how much damage the player will deal.
          D20roll();
         // Stores the result of the dice in an array.
-        playerAction[2] = D20Result * 0.8
+        playerAction[2] = D20Result * heavyAtkMod
         // If the result has decimals, the result is rounded up.
         playerAction[2] = Math.ceil(playerAction[2])
         console.log("Player rolled a '" + playerAction[1] + "' and hits the heavy attack and deals '" + playerAction[2] + "' damage to the enemy.")
@@ -423,4 +463,5 @@ function playerHeavyAtk() {
             console.log("Player rolled a '" + playerAction[1] + "' and misses the heavy attack")
         }
 }
+
 </script>
