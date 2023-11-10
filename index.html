@@ -1,7 +1,7 @@
 <meta name="color-scheme" content="dark">
 <body>
 <!-- A divider where the health is shown-->
-<div style="width 100%;">
+<div>
     <div style="width: 50%; height: 0px" id="playerHPDisplay"></div>
     <div style="margin-left: 35%; height: 0px;" id="turnCounterDisplay"></div>
     <div style="margin-left: 85%; height: 100px;"id="enemyHPDisplay"></div>
@@ -306,25 +306,32 @@ function parry() {
             enemyAction[3] = 1
         }
     }
+    // If the enemy action is regular attack, this happens
     else if (enemyAction[0] == "regatk") {
+        // If the player rolls higher than the enemy, a damage roll happens and the enemy attack is cancelled.
         if (playerAction[1] > enemyAction[1]) {
             D20roll();
             playerAction[2] = Math.ceil(D20Result * parryMod)
             console.log("Player parry successful. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'. Player deals '" + playerAction[2] + "' damage to the enemy.")
             console.log("The enemy attack got cancelled due to the successful parry.")
+            enemyCurrentHP -= playerAction[2]
         }
+        // If the player rolls the same number or below the enemy, the enemy attack goes through.
         else {
             console.log("Player parry failed. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'.")
             enemyRegAtk();            
         }
     }
+    // If the enemy action is heavy attack, this happens
     else if (enemyAction[0] == "heavyatk") {
+        // If the player rolls higher than the enemy, a damage roll happens and the enemy attack is cancelled.
         if (playerAction[1] > enemyAction[1]) {
             D20roll();
             playerAction[2] = Math.ceil(D20Result * parryMod)
             console.log("Player parry successful. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'. Player deals '" + playerAction[2] + "' damage to the enemy.")
             console.log("The enemy attack got cancelled due to the successful parry.")
         }
+        // If the player rolls the same number or below the enemy, the enemy attack goes through.
         else {
             console.log("Player parry failed. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'.")
             enemyHeavyAtk();
@@ -360,41 +367,53 @@ function dodge() {
         }
         
     }
+    // If enemy action is regular attack, this happens.
     else if (enemyAction[0] == "regatk") {
+        // If enemy rolled above 10 this happens
         if (enemyAction[1] > 10) {
             console.log("The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.")
             D20roll();
             enemyAction[2] = Math.ceil(D20Result * regAtkMod)
+            // Run the playerDodge function
             playerDodge();
         }
+        // If player rolled 10 or below, this happens.
         else {
             console.log("Player dodge was successful due to enemy missing their regular attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.")
             playerAction[3] = 1
         }
     }
+    // If enemy action is heavy attack, this happens.
     else if (enemyAction[0] == "heavyatk") {
+        // If enemy rolled above 12, this happens.
         if (enemyAction[1] > 12) {
             console.log("The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.")
             D20roll();
             enemyAction[2] = Math.ceil(D20Result * heavyAtkMod)
+            // Run the playerDodge function.
             playerDodge();
         }
+        // If enemy rolled 12 or below, this happens.
         else {
             console.log("Player dodge was successful due to enemy missing their heavy attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.")
             playerAction[3] = 1
         }    
     }
+    // If enemy action is dodge, this happens
     else if (enemyAction[0] == "dodge") {
+        // If player rolls higher than the enemy, player gets +2 for next turn while the enemy gets +1 next turn.
         if (playerAction[1] > enemyAction[1]) {
             console.log("Both conmbatants used dodge, the player will get a +2 due to rolling higher than the enemy who will get a +1 to their next roll.")
             playerAction[3] = 2
             enemyAction[3] = 1
         }
+        // If player rolls lower than the enemy, player gets +1 for next turn while the enemy gets +2 next turn.
         else if (playerAction[1] < enemyAction[1]) {
             console.log("Both combatants used dodge, the enemy wwill get a +2 due to rolling higher than the player who will get a +1 on their next roll.")
             playerAction[3] = 1
             enemyAction[3] = 2
         }
+        // If the player and the enemy rolls the same number, both get +1 for next turn.
         else {
             console.log("Both combatants used dodge. Both combatants will get a +1 due to rolling the same number.")
             playerAction[3] = 1
