@@ -1,4 +1,14 @@
 <meta name="color-scheme" content="dark">
+<body>
+<!-- A divider where the health is shown-->
+<div style="width 100%;">
+    <div style="width: 50%; height: 0px" id="playerHPDisplay">
+        test
+    </div>
+    <div style="margin-left: 50%; height: 100px;"id="enemyHPDisplay">
+        test
+    </div>
+</div>
 <!-- A button to test the diceroll function -->
 <button id="rollTestBtn">Test the D20 roll</button>
 <!-- This is where the results of the dicerolls are displayed. -->
@@ -7,6 +17,7 @@
 <button id="heavyAtkBtn">Heavy Attack</button>
 <button id="parryBtn">Parry</button>
 <button id="dodgeBtn">Dodge</button>
+</body>
 <script>
 // Create the variables and arrays with placeholder values.
 var D20Result = null
@@ -19,6 +30,7 @@ var playerCurrentHP = 50
 var enemyMaxHP = 50
 var enemyCurrentHP = 50
 var damagePreModify = 0
+
 // Variables deciding the modifier for the damage calculation for each action.
 var regAtkMod = 0.5
 var heavyAtkMod = 0.8
@@ -45,6 +57,8 @@ var dodgeBtn = document.getElementById("dodgeBtn")
 // Links the dodgeByn to the dodge function
 dodgeBtn.addEventListener("click", dodge)
 
+document.getElementById("playerHPDisplay").innerHTML = "Player HP : " + playerCurrentHP + " / " + playerMaxHP;
+document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
 // Create a function for the dice roll
 function D20roll() {
     // First the fuction generates a number and then checks which group it fits in with
@@ -178,6 +192,7 @@ function regularAtk() {
     if (enemyAction[0] == "heavyatk") {
         enemyHeavyAtk()
     }
+    updateHPDisplays();
 }
 // Function that triggers when the heavy attack button is clicked.
 function heavyAtk() {
@@ -237,6 +252,7 @@ function heavyAtk() {
     if (enemyAction[0] == "heavyatk") {
         enemyHeavyAtk()
     }
+    updateHPDisplays();
 }
 // Function that triggers when the parry button is clicked.
 function parry() {
@@ -314,6 +330,7 @@ function parry() {
             enemyHeavyAtk();
         }
     }
+    updateHPDisplays();
 }
 // Function that triggers when the dodge button is clicked.
 function dodge() {
@@ -384,6 +401,7 @@ function dodge() {
             enemyAction[3] = 1
         }
     }
+    updateHPDisplays();
 }
 
 // Create a function which decides the enemy's turn.
@@ -531,6 +549,7 @@ function playerHeavyAtk() {
         // If the result has decimals, the result is rounded up.
         playerAction[2] = Math.ceil(playerAction[2])
         console.log("Player rolled a '" + playerAction[1] + "' and hits the heavy attack and deals '" + playerAction[2] + "' damage to the enemy.")
+
         }
 
     else {
@@ -584,6 +603,10 @@ function playerDodge() {
         // Stores the +1 for next turn
         playerAction[3] = 1
     }
+}
+function updateHPDisplays() {
+    document.getElementById("playerHPDisplay").innerHTML = "Player HP : " + playerCurrentHP + " / " + playerMaxHP;
+    document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
 }
 
 </script>
