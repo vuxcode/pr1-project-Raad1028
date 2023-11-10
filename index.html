@@ -343,6 +343,47 @@ function dodge() {
         }
         
     }
+    else if (enemyAction[0] == "regatk") {
+        if (enemyAction[1] > 10) {
+            console.log("The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.")
+            D20roll();
+            enemyAction[2] = Math.ceil(D20Result * regAtkMod)
+            playerDodge();
+        }
+        else {
+            console.log("Player dodge was successful due to enemy missing their regular attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.")
+            playerAction[3] = 1
+        }
+    }
+    else if (enemyAction[0] == "heavyatk") {
+        if (enemyAction[1] > 12) {
+            console.log("The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.")
+            D20roll();
+            enemyAction[2] = Math.ceil(D20Result * heavyAtkMod)
+            playerDodge();
+        }
+        else {
+            console.log("Player dodge was successful due to enemy missing their heavy attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.")
+            playerAction[3] = 1
+        }    
+    }
+    else if (enemyAction[0] == "dodge") {
+        if (playerAction[1] > enemyAction[1]) {
+            console.log("Both conmbatants used dodge, the player will get a +2 due to rolling higher than the enemy who will get a +1 to their next roll.")
+            playerAction[3] = 2
+            enemyAction[3] = 1
+        }
+        else if (playerAction[1] < enemyAction[1]) {
+            console.log("Both combatants used dodge, the enemy wwill get a +2 due to rolling higher than the player who will get a +1 on their next roll.")
+            playerAction[3] = 1
+            enemyAction[3] = 2
+        }
+        else {
+            console.log("Both combatants used dodge. Both combatants will get a +1 due to rolling the same number.")
+            playerAction[3] = 1
+            enemyAction[3] = 1
+        }
+    }
 }
 
 // Create a function which decides the enemy's turn.
