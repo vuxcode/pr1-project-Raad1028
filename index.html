@@ -18,9 +18,16 @@
 <script>
 // Create the variables and arrays with placeholder values.
 var D20Result = null
-var playerAction = ["action", "roll", "damage", "dodgeAdvantage"]
+/* 
+Creates the arrays where a combatants turn is stored. 
+First value shows what action the combatant picked.
+Second stores the roll. 
+Third stores the damage dealt.
+Fourth stores the current dodge advantage.
+*/
+var playerAction = ["action", "roll", "damage", 0]
+var enemyAction = ["action", "roll", "damage", 0]
 
-var enemyAction = ["action", "roll", "damage", "dodgeAdvantage"]
 var turnCounter = 0
 var playerMaxHP = 50
 var playerCurrentHP = 50
@@ -441,9 +448,11 @@ function enemyTurn() {
     }    
     // Rolls the dice for the enemy.
     D20roll();
-    // Stores the dice result in an array.
-    enemyAction[1] = D20Result
+    // Stores the dice result in an array. Also adds the enemy dodge advantage if they have any.
+    enemyAction[1] = D20Result + enemyAction[3]
     console.log("Enemy action is '" + enemyAction[0] + "' with a dice roll of '" + enemyAction[1] + "'")
+    // Resets the dodge advantage for next turn.
+    enemyAction[3] = 0
 }
 
 // Function that activates if the enemy action is regatk
@@ -542,9 +551,11 @@ function turnCount() {
 function playerRoll() {
     // Rolls the dice for the player.
     D20roll();
-    // Stores the dice result in an array.
-    playerAction[1] = D20Result
+    // Stores the dice result in an array. Also adds the dodge advantage if the player currently has any.
+    playerAction[1] = D20Result + playerAction[3]
     console.log("Player action is '" + playerAction[0] + "' with a dice roll of '" + playerAction[1] + "'")
+    // Resets the dodge advantage for next turn.
+    playerAction[3] = 0
 }
 
 function playerRegAtk() {
