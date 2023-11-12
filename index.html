@@ -3,8 +3,12 @@
 <!-- A divider where the health is shown-->
 <div>
     <div style="width: 50%; height: 0px" id="playerHPDisplay"></div>
-    <div style="margin-left: 35%; height: 0px;" id="turnCounterDisplay"></div>
-    <div style="margin-left: 85%; height: 100px;"id="enemyHPDisplay"></div>
+    <div style="margin-left: 45%; height: 0px;" id="turnCounterDisplay"></div>
+    <div style="margin-left: 70%; height: 20px;"id="enemyHPDisplay"></div>
+</div>
+<div>
+    <div style="width: 45%; height: 0px" id="playerDodgeAdvantage"></div>
+    <div style="margin-left: 70%; height: 100px;"id="enemyDodgeAdvantage"></div>
 </div>
 <!-- A button to test the diceroll function -->
 <button id="rollTestBtn">Test the D20 roll</button>
@@ -645,9 +649,23 @@ function playerDodge() {
         playerAction[3] = 1
     }
 }
+// Function that updates the values displayed on the webpage.
 function updateHPDisplays() {
     document.getElementById("playerHPDisplay").innerHTML = "Player HP : " + playerCurrentHP + " / " + playerMaxHP;
     document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
+    if (playerAction[3] > 0) {
+        document.getElementById("playerDodgeAdvantage").innerHTML = "The player has a +" + playerAction[3] + " on their next diceroll."
+        
+    }
+    else {
+        document.getElementById("playerDodgeAdvantage").innerHTML = ""
+    }
+    if (enemyAction[3] > 0) {
+        document.getElementById("enemyDodgeAdvantage").innerHTML = "The enemy has a +" + enemyAction[3] + " on their next diceroll."
+    }
+    else {
+        document.getElementById("enemyDodgeAdvantage").innerHTML = ""
+    }
 }
 
 </script>
