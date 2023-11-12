@@ -21,3 +21,8 @@
   - Added a way to display HP and the turn counter on the screen.
   - Continued to improve upon reducing the amount of repeated code.
   - I think all possible turn outcomes is accounted for. Also, the HP variables gets updated now, so damage is actually being dealt.
+
+- 2023-11-12 15:45 worked for 1 hour
+  - Dodge advantage is now being added to the dicerolls as intended.
+  - If a combatant has a dodge advantage for the upcoming turn it will be shown on the webpage.
+  - Other minor changes to the code.
