@@ -6,7 +6,9 @@
     <div style="margin-left: 45%; height: 0px;" id="turnCounterDisplay"></div>
     <div style="margin-left: 70%; height: 20px;"id="enemyHPDisplay"></div>
     <div style="width: 45%; height: 0px" id="playerDodgeAdvantage"></div>
-    <div style="margin-left: 70%; height: 100px;"id="enemyDodgeAdvantage"></div>
+    <div style="margin-left: 70%; height: 50px;"id="enemyDodgeAdvantage"></div>
+
+    <div id="turnActionDisplay" style="position: absolute; left: 10%; right: 10%"></div>
 </div>
 <!-- A button to test the diceroll function -->
 <div id="devBtns" style="display: none">
@@ -89,9 +91,8 @@ parryBtn.addEventListener("click", parry)
 var dodgeBtn = document.getElementById("dodgeBtn")
 // Links the dodgeByn to the dodge function
 dodgeBtn.addEventListener("click", dodge)
+var turnActionDisplay = document.getElementById("turnActionDisplay")
 
-document.getElementById("playerHPDisplay").innerHTML = "Player HP : " + playerCurrentHP + " / " + playerMaxHP;
-document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
 // Create a function for the dice roll
 function D20roll() {
     // First the fuction generates a number and then checks which group it fits in with
@@ -177,6 +178,7 @@ function regularAtk() {
     if (enemyAction[0] == "parry") {
         // If the player rolled higher than the enemy, this part will execute.
         if (playerAction[1] > enemyAction[1]) {
+            turnActionDisplay.innerHTML += "Enemy failed to parry. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. <br>" 
             console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".");
             playerRegAtk();
             
@@ -187,7 +189,9 @@ function regularAtk() {
             D20roll();
             // Calculation for damage dealt.
             enemyAction[2] = Math.ceil(D20Result * parryMod)
+            turnActionDisplay.innerHTML += "Enemy parry was successful. Enemy rolled a '" + enemyAction[1] + "' while the player rolled a '" + playerAction[1] + "'. <br>Enemy deals '" + enemyAction[2] + "' damage to the player. <br>"
             console.log("Enemy parry was successful. Enemy rolled a " + enemyAction[1] + " while the player rolled a " + playerAction[1] + ". Enemy deals " + enemyAction[2] + " damage to the player.")
+            turnActionDisplay.innerHTML += "Player attack missed because of the enemy's successful parry <br>"
             console.log("Player attack missed because of the enemy's successful parry")
             playerCurrentHP -= enemyAction[2]
         }
@@ -208,6 +212,7 @@ function regularAtk() {
         else {
             // A regatk roll 10 or below will deal 0 damage.
             playerAction[2] = 0
+            turnActionDisplay.innerHTML += "Enemy dodge was successful due to the player rolling a '" + playerAction[1] +  "'. Enemy will get a +1 on their next roll. <br>"
             console.log("Enemy dodge was successful due to the player rolling a '" + playerAction[1] +  "'. Enemy will get a +1 on their next roll.")
             // Stores the +1 for next turn
             enemyAction[3] = 1
@@ -242,7 +247,8 @@ function heavyAtk() {
     if (enemyAction[0] == "parry") {
         // If the player rolled higher than the enemy, this part will execute.
         if (playerAction[1] > enemyAction[1]) {
-            console.log("Enemy failed to parry. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ".");
+            turnActionDisplay.innerHTML += "Enemy failed to parry. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. <br>"
+            console.log("Enemy failed to parry. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'.");
             playerHeavyAtk();
             
         }
@@ -252,7 +258,9 @@ function heavyAtk() {
             D20roll();
             // Calculation for damage dealt.
             enemyAction[2] = Math.ceil(D20Result * parryMod)
-            console.log("Enemy parry was successful. Enemy rolled a " + enemyAction[1] + " while the player rolled a " + playerAction[1] + ". Enemy deals " + enemyAction[2] + " damage to the player.")
+            turnActionDisplay.innerHTML += "Enemy parry was successful. Enemy rolled a '" + enemyAction[1] + "' while the player rolled a '" + playerAction[1] + "'. Enemy deals '" + enemyAction[2] + "' damage to the player.<br>"
+            console.log("Enemy parry was successful. Enemy rolled a '" + enemyAction[1] + "' while the player rolled a '" + playerAction[1] + "'. Enemy deals '" + enemyAction[2] + "' damage to the player.")
+            turnActionDisplay.innerHTML += "Player attack missed because of the enemy's successful parry <br>"
             console.log("Player attack missed because of the enemy's successful parry")
             playerCurrentHP -= enemyAction[2]
         }
@@ -270,6 +278,7 @@ function heavyAtk() {
         else {
             // A heavyatk roll 12 or below will deal 0 damage.
             playerAction[2] = 0
+            turnActionDisplay.innerHTML += "Enemy dodge was successful due to the player rolling a '" + playerAction[1] +  "'. Enemy will get a +1 on their next roll.<br>"
             console.log("Enemy dodge was successful due to the player rolling a '" + playerAction[1] +  "'. Enemy will get a +1 on their next roll.")
             // Stores the +1 for next turn
             enemyAction[3] = 1
@@ -306,20 +315,23 @@ function parry() {
         if (playerAction[1] > enemyAction[1]) {
             D20roll();
             playerAction[2] = Math.ceil(D20Result * parryMod)
-            console.log("Both combatants parries. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ". Player wins the clinch and deals '" + playerAction[2] + "' damage to the enemy.");
+            turnActionDisplay.innerHTML += "Both combatants parries. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. Player wins the clinch and deals '" + playerAction[2] + "' damage to the enemy.<br>"
+            console.log("Both combatants parries. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. Player wins the clinch and deals '" + playerAction[2] + "' damage to the enemy.");
             enemyCurrentHP -= playerAction[2]
         }
         // If the player rolled the same as the enemy, this part will execute.
         else if (playerAction[1] == enemyAction[1]) {
-            console.log("Both combatants parries. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ". The clinch is a draw and no damage is dealt this turn.")
+            turnActionDisplay.innerHTML += "Both combatants parries. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. The clinch is a draw and no damage is dealt this turn.<br>"
+            console.log("Both combatants parries. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. The clinch is a draw and no damage is dealt this turn.")
         }
         // If the player rolled lower than the enemy, this part will execute.
         else {
             // Rolls the dice that will decide the damage dealt.
             D20roll();
             // Damage dealt is calculated.
-            enemyAction[2] = Math.ceil(D20Result * parryMod)            
-            console.log("Both combatants parries. Enemy rolled a " + enemyAction[1] + " against the player's " + playerAction[1] + ". Enemy wins the clinch and deals " + enemyAction[2] + " damage to the player.")
+            enemyAction[2] = Math.ceil(D20Result * parryMod)
+            turnActionDisplay.innerHTML += "Both combatants parries. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. Enemy wins the clinch and deals '" + enemyAction[2] + "' damage to the player.<br>"
+            console.log("Both combatants parries. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'. Enemy wins the clinch and deals '" + enemyAction[2] + "' damage to the player.")
             playerCurrentHP -= enemyAction[2]
         }
     
@@ -330,6 +342,7 @@ function parry() {
             // Rolls and stores the damage.
             D20roll();
             playerAction[2] = Math.ceil(D20Result * parryMod)
+            turnActionDisplay.innerHTML += "Player parry successful. due to rolling a '" + playerAction[1] + "' against the the enemy's '" + enemyAction[1] + "'. <br>"
             console.log("Player parry successful. due to rolling a '" + playerAction[1] + "' against the the enemy's '" + enemyAction[1] + "'.")
             enemyDodge();        
         }
@@ -337,7 +350,8 @@ function parry() {
         else {
             // A heavyatk roll 12 or below will deal 0 damage.
             playerAction[2] = 0
-            console.log("Enemy dodge was successful due to the player rolling lower than the enemy. Player rolled a '" + playerAction[1] +  "' while the enemy rolled a '" + enemyAction[1] + ". Enemy will get a +1 on their next roll.")
+            turnActionDisplay.innerHTML += "Enemy dodge was successful due to the player rolling equal or lower than the enemy. Player rolled a '" + playerAction[1] +  "' while the enemy rolled a '" + enemyAction[1] + ". Enemy will get a +1 on their next roll."
+            console.log("Enemy dodge was successful due to the player rolling equal or lower than the enemy. Player rolled a '" + playerAction[1] +  "' while the enemy rolled a '" + enemyAction[1] + ". Enemy will get a +1 on their next roll.")
             // Stores the +1 for next turn
             enemyAction[3] = 1
         }
@@ -348,12 +362,15 @@ function parry() {
         if (playerAction[1] > enemyAction[1]) {
             D20roll();
             playerAction[2] = Math.ceil(D20Result * parryMod)
+            turnActionDisplay.innerHTML += "Player parry successful. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'. Player deals '" + playerAction[2] + "' damage to the enemy.<br>"
             console.log("Player parry successful. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'. Player deals '" + playerAction[2] + "' damage to the enemy.")
+            turnActionDisplay.innerHTML += "The enemy attack got cancelled due to the successful parry.<br>"
             console.log("The enemy attack got cancelled due to the successful parry.")
             enemyCurrentHP -= playerAction[2]
         }
         // If the player rolls the same number or below the enemy, the enemy attack goes through.
         else {
+            turnActionDisplay.innerHTML += "Player parry failed. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'.<br>"
             console.log("Player parry failed. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'.")
             enemyRegAtk();            
         }
@@ -364,11 +381,14 @@ function parry() {
         if (playerAction[1] > enemyAction[1]) {
             D20roll();
             playerAction[2] = Math.ceil(D20Result * parryMod)
+            turnActionDisplay.innerHTML += "Player parry successful. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'. Player deals '" + playerAction[2] + "' damage to the enemy.<br>"
             console.log("Player parry successful. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'. Player deals '" + playerAction[2] + "' damage to the enemy.")
+            turnActionDisplay.innerHTML += "The enemy attack got cancelled due to the successful parry.<br>"
             console.log("The enemy attack got cancelled due to the successful parry.")
         }
         // If the player rolls the same number or below the enemy, the enemy attack goes through.
         else {
+            turnActionDisplay.innerHTML += "Player parry failed. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'.<br>"
             console.log("Player parry failed. Player rolled a '" + playerAction[1] + "' against the enemy's '" + enemyAction[1] + "'.")
             enemyHeavyAtk();
         }
@@ -388,12 +408,15 @@ function dodge() {
     if (enemyAction[0] == "parry") {
         // If the player rolled higher than the enemy, this part will execute.
         if (playerAction[1] > enemyAction[1]) {
+            turnActionDisplay.innerHTML += "Enemy failed to parry. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'.<br>"
             console.log("Enemy failed to parry. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'.");
+            turnActionDisplay.innerHTML += "Player dodge is successful because of the failed parry. Player will get a +1 on their next dice roll.<br>"
             console.log("Player dodge is successful because of the failed parry. Player will get a +1 on their next dice roll.");
             playerAction[3] = 1
         }
         // If the player rolled lower than the enemy, this part will execute.
         else {
+            turnActionDisplay.innerHTML += "Enemy parry was successful. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'.<br>"
             console.log("Enemy parry was successful. Enemy rolled a '" + enemyAction[1] + "' against the player's '" + playerAction[1] + "'.")
             // Rolls the dice that will decide the damage dealt.
             D20roll();
@@ -407,6 +430,7 @@ function dodge() {
     else if (enemyAction[0] == "regatk") {
         // If enemy rolled above 10 this happens
         if (enemyAction[1] > 10) {
+            turnActionDisplay.innerHTML += "The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.<br>"
             console.log("The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.")
             D20roll();
             enemyAction[2] = Math.ceil(D20Result * regAtkMod)
@@ -415,6 +439,7 @@ function dodge() {
         }
         // If player rolled 10 or below, this happens.
         else {
+            turnActionDisplay.innerHTML += "Player dodge was successful due to enemy missing their regular attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.<br>"
             console.log("Player dodge was successful due to enemy missing their regular attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.")
             playerAction[3] = 1
         }
@@ -423,6 +448,7 @@ function dodge() {
     else if (enemyAction[0] == "heavyatk") {
         // If enemy rolled above 12, this happens.
         if (enemyAction[1] > 12) {
+            turnActionDisplay.innerHTML += "The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.<br>"
             console.log("The enemy regular attack was successful with a roll of '" + enemyAction[1] + "'.")
             D20roll();
             enemyAction[2] = Math.ceil(D20Result * heavyAtkMod)
@@ -431,6 +457,7 @@ function dodge() {
         }
         // If enemy rolled 12 or below, this happens.
         else {
+            turnActionDisplay.innerHTML += "Player dodge was successful due to enemy missing their heavy attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.<br>"
             console.log("Player dodge was successful due to enemy missing their heavy attack with a roll of '" + enemyAction[1] + "'. The player gets a +1 on their next dice roll.")
             playerAction[3] = 1
         }    
@@ -439,18 +466,21 @@ function dodge() {
     else if (enemyAction[0] == "dodge") {
         // If player rolls higher than the enemy, player gets +2 for next turn while the enemy gets +1 next turn.
         if (playerAction[1] > enemyAction[1]) {
+            turnActionDisplay.innerHTML += "Both conmbatants used dodge, the player will get a +2 due to rolling higher than the enemy who will get a +1 to their next roll.<br> Player rolled a '" + playerAction[1] + "' while the enemy rolled a '" + enemyAction[1] + "'.<br>"
             console.log("Both conmbatants used dodge, the player will get a +2 due to rolling higher than the enemy who will get a +1 to their next roll.")
             playerAction[3] = 2
             enemyAction[3] = 1
         }
         // If player rolls lower than the enemy, player gets +1 for next turn while the enemy gets +2 next turn.
         else if (playerAction[1] < enemyAction[1]) {
+            turnActionDisplay.innerHTML += "Both combatants used dodge, the enemy wwill get a +2 due to rolling higher than the player who will get a +1 on their next roll.<br> Player rolled a '" + playerAction[1] + "' while the enemy rolled a '" + enemyAction[1] + "'.<br>"
             console.log("Both combatants used dodge, the enemy wwill get a +2 due to rolling higher than the player who will get a +1 on their next roll.")
             playerAction[3] = 1
             enemyAction[3] = 2
         }
         // If the player and the enemy rolls the same number, both get +1 for next turn.
         else {
+            turnActionDisplay.innerHTML += "Both combatants used dodge. Both combatants will get a +1 due to rolling the same number.<br> Player rolled a '" + playerAction[1] + "' while the enemy rolled a '" + enemyAction[1] + "'.<br>"
             console.log("Both combatants used dodge. Both combatants will get a +1 due to rolling the same number.")
             playerAction[3] = 1
             enemyAction[3] = 1
@@ -491,6 +521,7 @@ function enemyRegAtk() {
         D20roll()
         // The damage dealt is decided here
         enemyAction[2] = Math.ceil(D20Result * regAtkMod)
+        turnActionDisplay.innerHTML += "Enemy regular attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player<br>"
         console.log("Enemy regular attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
         playerCurrentHP -= enemyAction[2]
     }
@@ -498,6 +529,7 @@ function enemyRegAtk() {
     else {
         // A regatk roll below 11 deals 0 damage.
         enemyAction[2] = 0
+        turnActionDisplay.innerHTML += "Enemy missed their regular attack with a dice roll of '" + enemyAction[1] + "'<br>"
         console.log("Enemy missed their regular attack with a dice roll of '" + enemyAction[1] + "'")
     }
 }
@@ -508,6 +540,7 @@ function enemyHeavyAtk() {
         D20roll()
         // The damage dealt is decided here
         enemyAction[2] = Math.ceil(D20Result * heavyAtkMod)
+        turnActionDisplay.innerHTML += "Enemy heavy attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player<br>"
         console.log("Enemy heavy attack hit with a dice roll of '" + enemyAction[1] + "'. Enemy deals '" + enemyAction[2] + "' to the player")
         playerCurrentHP -= enemyAction[2]
     }
@@ -515,6 +548,7 @@ function enemyHeavyAtk() {
     else {
         // A heavyatk roll below 13 deals 0 damage
         enemyAction[2] = 0
+        turnActionDisplay.innerHTML += "Enemy missed their heavy attack with a dice roll of '" + enemyAction[1] + "'<br>"
         console.log("Enemy missed their heavy attack with a dice roll of '" + enemyAction[1] + "'")
     }
 }
@@ -524,6 +558,7 @@ function enemyDodge() {
     if (enemyAction[1] > 17) {
         // A dodge roll of 18 and above will be considered a full dodge and will make the user take no damage for that turn.
         playerAction[2] = 0
+        turnActionDisplay.innerHTML += "Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and thus managed to completely dodge the players attack. The enemy will get a +2 on their next roll<br>"
         console.log("Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and thus managed to completely dodge the players attack. The enemy will get a +2 on their next roll")
         // Stores the +2 for next turn.
         enemyAction[3] = 2
@@ -534,6 +569,7 @@ function enemyDodge() {
         damagePreModify = playerAction[2]
         // A dodge roll between 13-17  will cause the attacker to only deal 30% of what they would've dealt otherwise.
         playerAction[2] = Math.ceil(playerAction[2] * 0.3)
+        turnActionDisplay.innerHTML += "Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and will therefore only take '" + playerAction[2] + "' instead of '" + damagePreModify + "'. The enemy will get a +2 on their next roll<br>"
         console.log("Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and will therefore only take '" + playerAction[2] + "' instead of '" + damagePreModify + "'. The enemy will get a +2 on their next roll")
         enemyCurrentHP -= playerAction[2]
         // Stores the +2 for next turn
@@ -545,6 +581,7 @@ function enemyDodge() {
         damagePreModify = playerAction[2]
         // A dodge roll between 8-12 will cause the attacker to only deal 50% of what they would've dealt otherwise.
         playerAction[2] = Math.ceil(playerAction[2] * 0.5)
+        turnActionDisplay.innerHTML += "Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and will therefore only take '" + playerAction[2] + "' instead of '" + damagePreModify + "'. The enemy will get a +2 on their next roll<br>"
         console.log("Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and will therefore only take '" + playerAction[2] + "' instead of '" + damagePreModify + "'. The enemy will get a +2 on their next roll")
         enemyCurrentHP -= playerAction[2]
         // Stores the +2 for next turn
@@ -556,6 +593,7 @@ function enemyDodge() {
         damagePreModify = playerAction[2]
         // A dodge roll between 4-7 will cause the attacker to only deal 70% of what they would've dealt otherwise.
         playerAction[2] = Math.ceil(playerAction[2] * 0.7)
+        turnActionDisplay.innerHTML += "Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and will therefore only take '" + playerAction[2] + "' instead of '" + damagePreModify + "'. The enemy will get a +1 on their next roll<br>"
         console.log("Enemy dodge was successful. Enemy rolled a '" + enemyAction[1] + "' and will therefore only take '" + playerAction[2] + "' instead of '" + damagePreModify + "'. The enemy will get a +1 on their next roll")
         enemyCurrentHP -= playerAction[2]
         // Stores the +1 for next turn
@@ -564,6 +602,7 @@ function enemyDodge() {
     // If the enemy rolled any number between 1-3 on their dice, this part executes
     else {
         // A dodge roll between 1-3 will have no effect on the damage taken, but will still store a +1 for next turn
+        turnActionDisplay.innerHTML += "Enemy dodge failed. Enemy rolled a '" + enemyAction[1] + "' and will take the full '" + playerAction[2] + "' damage from the player. Enemy will still get a +1 on their next roll.<br>"
         console.log("Enemy dodge failed. Enemy rolled a '" + enemyAction[1] + "' and will take the full '" + playerAction[2] + "' damage from the player. Enemy will still get a +1 on their next roll.")
         // Stores the +1 for next turn
         enemyAction[3] = 1
@@ -575,6 +614,7 @@ function turnCount() {
     turnCounter += 1
     console.log("Turn " + turnCounter + ":")
     document.getElementById("turnCounterDisplay").innerHTML = "Turn " + turnCounter
+    turnActionDisplay.innerHTML = ""
 }
 // A function that rolls the dice for the player.
 function playerRoll() {
@@ -595,6 +635,7 @@ function playerRegAtk() {
         playerAction[2] = D20Result * regAtkMod
         // If the result has decimals, the result is rounded up.
         playerAction[2] = Math.ceil(playerAction[2])
+        turnActionDisplay.innerHTML += "Player rolled a '" + playerAction[1] + "' and hits the regular attack and deals '" + playerAction[2] + "' damage to the enemy.<br>"
         console.log("Player rolled a '" + playerAction[1] + "' and hits the regular attack and deals '" + playerAction[2] + "' damage to the enemy.")
         enemyCurrentHP -= playerAction[2]
         }
@@ -602,6 +643,7 @@ function playerRegAtk() {
     else {
         // If the player rolled 10 or below, damage dealt is set to 0
         playerAction[2] = 0
+        turnActionDisplay.innerHTML += "Player rolled a '" + playerAction[1] + "' and misses the regular attack<br>"
             console.log("Player rolled a '" + playerAction[1] + "' and misses the regular attack")
         }
 }
@@ -614,6 +656,7 @@ function playerHeavyAtk() {
         playerAction[2] = D20Result * heavyAtkMod
         // If the result has decimals, the result is rounded up.
         playerAction[2] = Math.ceil(playerAction[2])
+        turnActionDisplay.innerHTML += "Player rolled a '" + playerAction[1] + "' and hits the heavy attack and deals '" + playerAction[2] + "' damage to the enemy.<br>"
         console.log("Player rolled a '" + playerAction[1] + "' and hits the heavy attack and deals '" + playerAction[2] + "' damage to the enemy.")
         enemyCurrentHP -= playerAction[2]
         }
@@ -621,6 +664,7 @@ function playerHeavyAtk() {
     else {
         // If the player rolled 12 or below, damage dealt is set to 0
         playerAction[2] = 0
+            turnActionDisplay.innerHTML += "Player rolled a '" + playerAction[1] + "' and misses the heavy attack<br>"
             console.log("Player rolled a '" + playerAction[1] + "' and misses the heavy attack")
         }
 }
@@ -629,6 +673,7 @@ function playerDodge() {
     if (playerAction[1] > 17) {
         // A dodge roll of 18 and above will be considered a full dodge and will make the user take no damage for that turn.
         enemyAction[2] = 0
+        turnActionDisplay.innerHTML += "Player dodge was successful. Player rolled a '" + playerAction[1] + "' and thus managed to completely dodge the players attack. The player will get a +2 on their next roll<br>"
         console.log("Player dodge was successful. Player rolled a '" + playerAction[1] + "' and thus managed to completely dodge the players attack. The player will get a +2 on their next roll")
         // Stores the +2 for next turn.
         playerAction[3] = 2
@@ -639,7 +684,9 @@ function playerDodge() {
         damagePreModify = enemyAction[2]
         // A dodge roll between 13-17  will cause the attacker to only deal 30% of what they would've dealt otherwise.
         enemyAction[2] = Math.ceil(enemyAction[2] * 0.3)
-        console.log("Player dodge was successful. Player rolled a '" + playerAction[1] + "' and will therefore only take '" + enemyAction[2] + "' instead of '" + damagePreModify + "'. The player will get a +2 on their next roll")       // Stores the +2 for next turn
+        turnActionDisplay.innerHTML += "Player dodge was successful. Player rolled a '" + playerAction[1] + "' and will therefore only take '" + enemyAction[2] + "' instead of '" + damagePreModify + "'. The player will get a +2 on their next roll<br>"
+        console.log("Player dodge was successful. Player rolled a '" + playerAction[1] + "' and will therefore only take '" + enemyAction[2] + "' instead of '" + damagePreModify + "'. The player will get a +2 on their next roll")      
+        // Stores the +2 for next turn
         playerCurrentHP -= enemyAction[2]
         playerAction[3] = 2
     }
@@ -649,6 +696,7 @@ function playerDodge() {
         damagePreModify = enemyAction[2]
         // A dodge roll between 8-12 will cause the attacker to only deal 50% of what they would've dealt otherwise.
         enemyAction[2] = Math.ceil(enemyAction[2] * 0.5)
+        turnActionDisplay.innerHTML += "Player dodge was successful. Player rolled a '" + playerAction[1] + "' and will therefore only take '" + enemyAction[2] + "' instead of '" + damagePreModify + "'. The player will get a +2 on their next roll<br>"
         console.log("Player dodge was successful. Player rolled a '" + playerAction[1] + "' and will therefore only take '" + enemyAction[2] + "' instead of '" + damagePreModify + "'. The player will get a +2 on their next roll")
         playerCurrentHP -= enemyAction[2]
         // Stores the +2 for next turn
@@ -660,6 +708,7 @@ function playerDodge() {
         damagePreModify = enemyAction[2]
         // A dodge roll between 4-7 will cause the attacker to only deal 70% of what they would've dealt otherwise.
         enemyAction[2] = Math.ceil(enemyAction[2] * 0.7)
+        turnActionDisplay.innerHTML += "Player dodge was successful. Player rolled a '" + playerAction[1] + "' and will therefore only take '" + enemyAction[2] + "' instead of '" + damagePreModify + "'. The player will get a +1 on their next roll<br>"
         console.log("Player dodge was successful. Player rolled a '" + playerAction[1] + "' and will therefore only take '" + enemyAction[2] + "' instead of '" + damagePreModify + "'. The player will get a +1 on their next roll")
         playerCurrentHP -= enemyAction[2]
         // Stores the +1 for next turn
@@ -668,6 +717,7 @@ function playerDodge() {
     // If the enemy rolled any number between 1-3 on their dice, this part executes
     else {
         // A dodge roll between 1-3 will have no effect on the damage taken, but will still store a +1 for next turn
+        turnActionDisplay.innerHTML += "Player dodge failed. Player rolled a '" + playerAction[1] + "' and will take the full '" + enemyAction[2] + "' damage from the enemy. Player will still get a +1 on their next roll.<br>"
         console.log("Player dodge failed. Player rolled a '" + playerAction[1] + "' and will take the full '" + enemyAction[2] + "' damage from the enemy. Player will still get a +1 on their next roll.")
         playerCurrentHP -= enemyAction[2]
         // Stores the +1 for next turn
@@ -696,6 +746,8 @@ function updateHPDisplays() {
 function startGame() {
     mainMenu.style.display = "none"
     overWorldMenu.style.display = "block"
+    document.getElementById("playerHPDisplay").innerHTML = "Player HP : " + playerCurrentHP + " / " + playerMaxHP;
+    document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
 }
 // Function that hides the overworld menu and shows the combat screen whenever the user clicks the battle button.
 function battleStart() {
