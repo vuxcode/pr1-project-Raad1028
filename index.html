@@ -1,23 +1,35 @@
 <meta name="color-scheme" content="dark">
 <body>
 <!-- A divider where the health is shown-->
-<div>
+<div id="combatInfo" style="display: none">
     <div style="width: 50%; height: 0px" id="playerHPDisplay"></div>
     <div style="margin-left: 45%; height: 0px;" id="turnCounterDisplay"></div>
     <div style="margin-left: 70%; height: 20px;"id="enemyHPDisplay"></div>
-</div>
-<div>
     <div style="width: 45%; height: 0px" id="playerDodgeAdvantage"></div>
     <div style="margin-left: 70%; height: 100px;"id="enemyDodgeAdvantage"></div>
 </div>
 <!-- A button to test the diceroll function -->
-<button id="rollTestBtn">Test the D20 roll</button>
-<!-- This is where the results of the dicerolls are displayed. -->
-<div id="text-test"></div>
-<button id="regularAtkBtn">Regular Attack</button>
-<button id="heavyAtkBtn">Heavy Attack</button>
-<button id="parryBtn">Parry</button>
-<button id="dodgeBtn">Dodge</button>
+<div id="devBtns" style="display: none">
+    <button id="rollTestBtn">Test the D20 roll</button>
+    <!-- This is where the results of the dicerolls are displayed. -->
+    <div id="text-test"></div>
+</div>
+<!-- A divider where the combat buttons are located. -->
+<div id="combatBtns" style="display: none">
+    <button id="regularAtkBtn" style="position: absolute; top: 50%; left: 25%; height: 20%; width: 20%; ">Regular Attack</button>
+    <button id="heavyAtkBtn" style="position: absolute; top: 50%; left: 50%; height: 20%; width: 20%; ">Heavy Attack</button>
+    <button id="parryBtn" style="position: absolute; top: 75%; left: 25%; height: 20%; width: 20%; ">Parry</button>
+    <button id="dodgeBtn" style="position: absolute; top: 75%; left: 50%; height: 20%; width: 20%;">Dodge</button>   
+</div>
+<!-- A divider where the main menu is. -->
+<div id="mainMenu">
+    <button id="startBtn" style="position: absolute; top: 50%; left: 50%; height: 20%; width: 20%; transform: translate(-50%, -50%);">Start the game</button>
+</div>
+<!-- A divider for the overworld. -->
+<div id="overWorldMenu" style="display: none;">
+    <button id="battleBtn">Battle</button>
+    <button id="shopBtn">Shop (NOT IMPLEMENTED)</button>
+</div>
 </body>
 <script>
 // Create the variables and arrays with placeholder values.
@@ -43,7 +55,20 @@ var damagePreModify = 0
 var regAtkMod = 0.5
 var heavyAtkMod = 0.8
 var parryMod = 0.5
+// Variables linked to different divs in the HTML.
+var mainMenu = document.getElementById("mainMenu")
+var overWorldMenu = document.getElementById("overWorldMenu")
+var combatInfo = document.getElementById("combatInfo")
+var combatBtns = document.getElementById("combatBtns")
 
+// Variable for the startBtn.
+var startBtn = document.getElementById("startBtn")
+// Links start button to the startGame function.
+startBtn.addEventListener("click", startGame)
+// Variable for the battle button
+var battleBtn = document.getElementById("battleBtn")
+// Links battle button to the battleStart function.
+battleBtn.addEventListener("click", battleStart)
 // Variable for the rollTestBtn button.
 var rollTestBtn = document.getElementById("rollTestBtn")
 // Links the test button to the testRoll function.
@@ -667,5 +692,15 @@ function updateHPDisplays() {
         document.getElementById("enemyDodgeAdvantage").innerHTML = ""
     }
 }
-
+// Function that hides the main menu and shows the overworld menu whenever the user clicks the start button.
+function startGame() {
+    mainMenu.style.display = "none"
+    overWorldMenu.style.display = "block"
+}
+// Function that hides the overworld menu and shows the combat screen whenever the user clicks the battle button.
+function battleStart() {
+    overWorldMenu.style.display = "none"
+    combatBtns.style.display = "block"
+    combatInfo.style.display = "block"
+}
 </script>
