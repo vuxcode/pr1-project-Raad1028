@@ -26,3 +26,8 @@
   - Dodge advantage is now being added to the dicerolls as intended.
   - If a combatant has a dodge advantage for the upcoming turn it will be shown on the webpage.
   - Other minor changes to the code.
+
+- 2023-11-13 17:00 worked for 2 hours
+  - Implemented menues with different buttons. Now when you first load the program you land on the main menu, then you get to the overworld menu and when you click the battle button, you get to the combat screen etc.
+  - Worked on the UI, making the combat buttons bigger, and in a locked position.
+  - After every turn, a message showing everything that happened that turn is displayed.
