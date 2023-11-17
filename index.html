@@ -10,27 +10,29 @@
 
     <div id="turnActionDisplay" style="position: absolute; left: 10%; right: 10%"></div>
 </div>
-<!-- A button to test the diceroll function -->
-<div id="devBtns" style="display: none">
-    <button id="rollTestBtn">Test the D20 roll</button>
-    <!-- This is where the results of the dicerolls are displayed. -->
-    <div id="text-test"></div>
-</div>
 <!-- A divider where the combat buttons are located. -->
 <div id="combatBtns" style="display: none">
-    <button id="regularAtkBtn" style="position: absolute; top: 50%; left: 25%; height: 20%; width: 20%; ">Regular Attack</button>
+    <button id="regularAtkBtn" style="position: absolute; top: 50%; left: 25%; height: 20%; width: 20%;">Regular Attack</button>
     <button id="heavyAtkBtn" style="position: absolute; top: 50%; left: 50%; height: 20%; width: 20%; ">Heavy Attack</button>
     <button id="parryBtn" style="position: absolute; top: 75%; left: 25%; height: 20%; width: 20%; ">Parry</button>
     <button id="dodgeBtn" style="position: absolute; top: 75%; left: 50%; height: 20%; width: 20%;">Dodge</button>   
 </div>
 <!-- A divider where the main menu is. -->
 <div id="mainMenu">
-    <button id="startBtn" style="position: absolute; top: 50%; left: 50%; height: 20%; width: 20%; transform: translate(-50%, -50%);">Start the game</button>
+    <h2 style="position: absolute; left: 50%; top: 20%; height: 5%; transform: translate(-50%, -50%); white-space: nowrap ;">Name your character</h2>
+    <input id="userNameInput" type="text" style="position: absolute; top: 35%; left: 50%; width: 20%; height: 4%; transform: translate(-50%, -50%);">
+    <button id="startBtn" style="position: absolute; top: 50%; left: 50%; height: 20%; width: 15%; transform: translate(-50%, -50%);">Start the game</button>
 </div>
 <!-- A divider for the overworld. -->
 <div id="overWorldMenu" style="display: none;">
     <button id="battleBtn">Battle</button>
     <button id="shopBtn">Shop (NOT IMPLEMENTED)</button>
+</div>
+<div id="devBtns" style="display: none">
+    <!-- A button to test the diceroll function -->
+    <button id="rollTestBtn">Test the D20 roll</button>
+    <!-- This is where the results of the dicerolls are displayed. -->
+    <div id="text-test"></div>
 </div>
 </body>
 <script>
@@ -46,6 +48,7 @@ Fourth stores the current dodge advantage.
 var playerAction = ["action", "roll", "damage", 0]
 var enemyAction = ["action", "roll", "damage", 0]
 
+var playerName = ""
 var turnCounter = 0
 var playerMaxHP = 50
 var playerCurrentHP = 50
@@ -62,7 +65,9 @@ var mainMenu = document.getElementById("mainMenu")
 var overWorldMenu = document.getElementById("overWorldMenu")
 var combatInfo = document.getElementById("combatInfo")
 var combatBtns = document.getElementById("combatBtns")
+var devBtns = document.getElementById("devBtns")
 
+var userNameInput = document.getElementById("userNameInput")
 // Variable for the startBtn.
 var startBtn = document.getElementById("startBtn")
 // Links start button to the startGame function.
@@ -726,7 +731,7 @@ function playerDodge() {
 }
 // Function that updates the values displayed on the webpage.
 function updateHPDisplays() {
-    document.getElementById("playerHPDisplay").innerHTML = "Player HP : " + playerCurrentHP + " / " + playerMaxHP;
+    document.getElementById("playerHPDisplay").innerHTML = playerName + " HP : " + playerCurrentHP + " / " + playerMaxHP;
     document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
     if (playerAction[3] > 0) {
         document.getElementById("playerDodgeAdvantage").innerHTML = "The player has a +" + playerAction[3] + " on their next diceroll."
@@ -745,8 +750,18 @@ function updateHPDisplays() {
 // Function that hides the main menu and shows the overworld menu whenever the user clicks the start button.
 function startGame() {
     mainMenu.style.display = "none"
-    overWorldMenu.style.display = "block"
-    document.getElementById("playerHPDisplay").innerHTML = "Player HP : " + playerCurrentHP + " / " + playerMaxHP;
+    overWorldMenu.style.display = "block"    
+    playerName = userNameInput.value
+    if (playerName == false) {
+        playerName = "Player"
+    }
+    else if (playerName == "DEV") {
+        devBtns.style.display = "block"
+    }
+
+
+
+    document.getElementById("playerHPDisplay").innerHTML = playerName + " HP : " + playerCurrentHP + " / " + playerMaxHP;
     document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
 }
 // Function that hides the overworld menu and shows the combat screen whenever the user clicks the battle button.
