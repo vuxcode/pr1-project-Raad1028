@@ -31,3 +31,8 @@
   - Implemented menues with different buttons. Now when you first load the program you land on the main menu, then you get to the overworld menu and when you click the battle button, you get to the combat screen etc.
   - Worked on the UI, making the combat buttons bigger, and in a locked position.
   - After every turn, a message showing everything that happened that turn is displayed.
+
+- 2023-11-17 16:30 worked for 1 hour
+  - Added a text input where the user can pick a name for their character.
+  - If the user inputs the name "DEV", elements inside the devBtns divider will be shown. Currently only has the dice test, will probably add more stuff for when i start the work on the shop.
+  - Tried to make the main menu UI a bit better. An issue I had is making the "Name your character" text locked in a position no matter what zoom you have on your browser but was unsuccessful. Will revisit in future.
