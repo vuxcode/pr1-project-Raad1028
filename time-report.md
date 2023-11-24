@@ -36,3 +36,8 @@
   - Added a text input where the user can pick a name for their character.
   - If the user inputs the name "DEV", elements inside the devBtns divider will be shown. Currently only has the dice test, will probably add more stuff for when i start the work on the shop.
   - Tried to make the main menu UI a bit better. An issue I had is making the "Name your character" text locked in a position no matter what zoom you have on your browser but was unsuccessful. Will revisit in future.
+
+- 2023-11-24 15:30 worked for 1.5 hours
+  - Added currency and a way to add currency if devBtns are enabled.
+  - Started working on the shop, added buttons for that screen and made them do what they are supposed to.
+  - Some UI improvements

@@ -830,20 +830,24 @@ function enterShop() {
     overWorldMenu.style.display = "none"
     shopMenu.style.display = "block"
 }
-
+// Function that switches to the weapon shop menu
 function shopWpnMenu() {
     pickCategory.style.display = "none"
     shopWeaponsMenu.style.display = "block"
 }
+// Function that switches to the armor shop menu
 function shopArmMenu() {
     pickCategory.style.display = "none"
     shopArmorMenu.style.display = "block"
 }
+// Function that goes back to the previous menu.
 function shopReturn() {
+    // If the current menu enabled is pickCategory, switches to the overWorldMenu instead.
     if (pickCategory.style.display == "block") {
         shopMenu.style.display = "none"
         overWorldMenu.style.display = "block"
     }
+    // If the current menu is either the armor or weapon shop, goes back to the pickCategory menu.
     else {
         shopWeaponMenu.style.display = "none"
         shopArmorMenu.style.display = "none"
