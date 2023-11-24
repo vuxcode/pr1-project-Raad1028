@@ -12,10 +12,10 @@
 </div>
 <!-- A divider where the combat buttons are located. -->
 <div id="combatBtns" style="display: none">
-    <button id="regularAtkBtn" style="position: absolute; top: 50%; left: 25%; height: 20%; width: 20%;">Regular Attack</button>
-    <button id="heavyAtkBtn" style="position: absolute; top: 50%; left: 50%; height: 20%; width: 20%; ">Heavy Attack</button>
-    <button id="parryBtn" style="position: absolute; top: 75%; left: 25%; height: 20%; width: 20%; ">Parry</button>
-    <button id="dodgeBtn" style="position: absolute; top: 75%; left: 50%; height: 20%; width: 20%;">Dodge</button>   
+    <button id="regularAtkBtn" style="position: absolute; top: 45%; left: 25%; height: 20%; width: 20%;">Regular Attack</button>
+    <button id="heavyAtkBtn" style="position: absolute; top: 45%; left: 50%; height: 20%; width: 20%; ">Heavy Attack</button>
+    <button id="parryBtn" style="position: absolute; top: 70%; left: 25%; height: 20%; width: 20%; ">Parry</button>
+    <button id="dodgeBtn" style="position: absolute; top: 70%; left: 50%; height: 20%; width: 20%;">Dodge</button>
 </div>
 <!-- A divider where the main menu is. -->
 <div id="mainMenu">
@@ -29,11 +29,15 @@
     <button id="shopBtn">Shop (NOT IMPLEMENTED)</button>
 </div>
 <div id="devBtns" style="display: none">
+    <!-- A button that adds money to the player, for testing purposes-->
+    <button id="addMoneyBtn" style="position: absolute; top: 90%; left: 45%; width: 15%; height: 6%; font-size: x-small;">Add 10 Gold</button>
     <!-- A button to test the diceroll function -->
-    <button id="rollTestBtn">Test the D20 roll</button>
+    <button id="rollTestBtn" style="position: absolute; top: 90%; left: 60%; width: 15%; height: 6%; font-size: x-small;">Test D20 roll</button>
     <!-- This is where the results of the dicerolls are displayed. -->
+    <button id="rollTestClear" style="position: absolute; top: 90%; left: 75%; width: 15%; height: 6%; font-size: x-small;">Clear test rolls</button>
     <div id="text-test"></div>
 </div>
+<div id="playerCurrencyDisplay" style="display: none;"></div>
 </body>
 <script>
 // Create the variables and arrays with placeholder values.
@@ -55,7 +59,7 @@ var playerCurrentHP = 50
 var enemyMaxHP = 50
 var enemyCurrentHP = 50
 var damagePreModify = 0
-
+var playerCurrency = 0
 // Variables deciding the modifier for the damage calculation for each action.
 var regAtkMod = 0.5
 var heavyAtkMod = 0.8
@@ -67,6 +71,11 @@ var combatInfo = document.getElementById("combatInfo")
 var combatBtns = document.getElementById("combatBtns")
 var devBtns = document.getElementById("devBtns")
 
+// Variable for the addMoneyBtn
+var addMoneyBtn = document.getElementById("addMoneyBtn")
+// Links button to addMoney function
+addMoneyBtn.addEventListener("click", addMoney)
+var playerCurrencyDisplay = document.getElementById("playerCurrencyDisplay")
 var userNameInput = document.getElementById("userNameInput")
 // Variable for the startBtn.
 var startBtn = document.getElementById("startBtn")
@@ -752,6 +761,8 @@ function startGame() {
     mainMenu.style.display = "none"
     overWorldMenu.style.display = "block"    
     playerName = userNameInput.value
+    playerCurrencyDisplay.innerHTML = playerCurrency + " Gold"
+    playerCurrencyDisplay.style.display = "block"
     if (playerName == false) {
         playerName = "Player"
     }
@@ -769,5 +780,10 @@ function battleStart() {
     overWorldMenu.style.display = "none"
     combatBtns.style.display = "block"
     combatInfo.style.display = "block"
+}
+// Function that adds money.
+function addMoney() {
+    playerCurrency += 10
+    playerCurrencyDisplay.innerHTML = playerCurrency + " Gold"
 }
 </script>
