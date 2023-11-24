@@ -26,16 +26,29 @@
 <!-- A divider for the overworld. -->
 <div id="overWorldMenu" style="display: none;">
     <button id="battleBtn">Battle</button>
-    <button id="shopBtn">Shop (NOT IMPLEMENTED)</button>
+    <button id="shopBtn">Shop (Work In Progress)</button>
+</div>
+<div id="shopMenu" style="display: none;">
+    <div id="pickCategory" style="display: block">
+        <button id="shopWeapons">Weapons</button>
+        <button id="shopArmor">Armor</button>
+    </div>
+    <div id="shopWeaponMenu" style="display: none">
+    
+    </div>
+    <div id="shopArmorMenu" style="display: none;">
+    
+    </div>
+    <button id="shopBack" style="display: block;">Go back</button>
 </div>
 <div id="devBtns" style="display: none">
     <!-- A button that adds money to the player, for testing purposes-->
-    <button id="addMoneyBtn" style="position: absolute; top: 90%; left: 45%; width: 15%; height: 6%; font-size: x-small;">Add 10 Gold</button>
+    <button id="addMoneyBtn" style="position: absolute; top: 91%; left: 45%; width: 15%; height: 6%; font-size: x-small;">Add 10 Gold</button>
     <!-- A button to test the diceroll function -->
-    <button id="rollTestBtn" style="position: absolute; top: 90%; left: 60%; width: 15%; height: 6%; font-size: x-small;">Test D20 roll</button>
+    <button id="rollTestBtn" style="position: absolute; top: 91%; left: 60%; width: 15%; height: 6%; font-size: x-small;">Test D20 roll</button>
     <!-- This is where the results of the dicerolls are displayed. -->
-    <button id="rollTestClear" style="position: absolute; top: 90%; left: 75%; width: 15%; height: 6%; font-size: x-small;">Clear test rolls</button>
-    <div id="text-test"></div>
+    <button id="rollTestClear" style="position: absolute; top: 91%; left: 75%; width: 15%; height: 6%; font-size: x-small;">Clear test rolls</button>
+    <div id="text-test" style="position: absolute; top: 75%; height: 20%; font-size: xx-small; overflow: auto;"></div>
 </div>
 <div id="playerCurrencyDisplay" style="display: none;"></div>
 </body>
@@ -69,13 +82,29 @@ var mainMenu = document.getElementById("mainMenu")
 var overWorldMenu = document.getElementById("overWorldMenu")
 var combatInfo = document.getElementById("combatInfo")
 var combatBtns = document.getElementById("combatBtns")
+var shopMenu = document.getElementById("shopMenu")
+var pickCategory = document.getElementById("pickCategory")
+var shopWeaponMenu = document.getElementById("shopWeaponMenu")
+var shopArmorMenu = document.getElementById("shopArmorMenu")
 var devBtns = document.getElementById("devBtns")
 
 // Variable for the addMoneyBtn
 var addMoneyBtn = document.getElementById("addMoneyBtn")
 // Links button to addMoney function
 addMoneyBtn.addEventListener("click", addMoney)
+// Variable for the playerCurrencyDisplay element
 var playerCurrencyDisplay = document.getElementById("playerCurrencyDisplay")
+// Variable for the rollTestBtn button.
+var rollTestBtn = document.getElementById("rollTestBtn")
+// Links the test button to the testRoll function.
+rollTestBtn.addEventListener("click", testRoll);
+// Variable for the rollTestClear button
+var rollTestClear = document.getElementById("rollTestClear")
+// Links the clear button to the rollClear funciton.
+rollTestClear.addEventListener("click", rollClear)
+// Variable for the regularAtkBtn button.
+var regularAtkBtn = document.getElementById("regularAtkBtn")
+// Variable for the userNameInput.
 var userNameInput = document.getElementById("userNameInput")
 // Variable for the startBtn.
 var startBtn = document.getElementById("startBtn")
@@ -85,12 +114,23 @@ startBtn.addEventListener("click", startGame)
 var battleBtn = document.getElementById("battleBtn")
 // Links battle button to the battleStart function.
 battleBtn.addEventListener("click", battleStart)
-// Variable for the rollTestBtn button.
-var rollTestBtn = document.getElementById("rollTestBtn")
-// Links the test button to the testRoll function.
-rollTestBtn.addEventListener("click", testRoll);
-// Variable for the regularAtkBtn button.
-var regularAtkBtn = document.getElementById("regularAtkBtn")
+// Variable for the shop button
+var shopBtn = document.getElementById("shopBtn")
+// Links shop button to the enterShop function.
+shopBtn.addEventListener("click", enterShop)
+// Variable for the weapons button in the shop
+var shopWeapons = document.getElementById("shopWeapons")
+// Links shopWeapons button to the shopWpnMenu function.
+shopWeapons.addEventListener("click", shopWpnMenu)
+// Variable for the armor button in the shop
+var shopArmor = document.getElementById("shopArmor")
+// Links shopArmor button to the shopArmMenu function,
+shopArmor.addEventListener("click", shopArmMenu)
+// Variable for the shopBack button
+var shopBack = document.getElementById("shopBack")
+// Links the shopBack button to the shopReturn function.
+shopBack.addEventListener("click", shopReturn)
+
 // Links the regularAtkBtn to the regularAtk function.
 regularAtkBtn.addEventListener("click", regularAtk)
 // Variable for the heavyAtBtn button.
@@ -179,6 +219,10 @@ function testRoll() {
     D20roll();
     // Displays the result on the page.
     document.getElementById("text-test").innerHTML += "You rolled a '" + D20Result + "' on your d20 <br>";
+}
+// A function to clear the previous test rolls
+function rollClear() {
+    document.getElementById("text-test").innerHTML = ""
 }
 // function that triggers when the regular attack button is clicked.
 function regularAtk() {
@@ -781,6 +825,32 @@ function battleStart() {
     combatBtns.style.display = "block"
     combatInfo.style.display = "block"
 }
+// Function that hides overworld menu and shows the shop screen whenever the user clicks the shop button
+function enterShop() {
+    overWorldMenu.style.display = "none"
+    shopMenu.style.display = "block"
+}
+
+function shopWpnMenu() {
+    pickCategory.style.display = "none"
+    shopWeaponsMenu.style.display = "block"
+}
+function shopArmMenu() {
+    pickCategory.style.display = "none"
+    shopArmorMenu.style.display = "block"
+}
+function shopReturn() {
+    if (pickCategory.style.display == "block") {
+        shopMenu.style.display = "none"
+        overWorldMenu.style.display = "block"
+    }
+    else {
+        shopWeaponMenu.style.display = "none"
+        shopArmorMenu.style.display = "none"
+        pickCategory.style.display = "block"
+    }
+}
+
 // Function that adds money.
 function addMoney() {
     playerCurrency += 10
