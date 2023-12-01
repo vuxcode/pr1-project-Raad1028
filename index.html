@@ -41,9 +41,10 @@
     </div>
     <button id="shopBack" style="display: block;">Go back</button>
 </div>
-<div id ="postBattleScreen">
-    <h2 id="winLoseText"style="position: absolute; left: 50%; top: 20%; height: 5%; transform: translate(-50%, -50%); white-space: nowrap ;"></h2>
-    <button id="postBattleContinue">Continue</button>
+<div id ="postBattleScreen" style="display: none;">
+    <h2 id="postBattleResult" style="position: absolute; left: 50%; top: 20%; height: 5%; transform: translate(-50%, -50%); white-space: nowrap ;"></h2>
+    <div id="postBattleReward" style="position: absolute; left: 50%; top: 30%; height: 5%; transform: translate(-50%, -50%); white-space: nowrap ;">lllllll</div>
+    <button id="postBattleContinueBtn" style="position: absolute; top: 50%; left: 50%; height: 20%; width: 15%; transform: translate(-50%, -50%);">Continue</button>
 </div>
 <div id="devBtns" style="display: none">
     <!-- A button that adds money to the player, for testing purposes-->
@@ -93,10 +94,12 @@ var shopArmorMenu = document.getElementById("shopArmorMenu")
 var devBtns = document.getElementById("devBtns")
 var postBattleScreen = document.getElementById("postBattleScreen")
 
+var postBattleReward = document.getElementById("postBattleReward")
+var postBattleResult = document.getElementById("postBattleResult")
 // Variable for the continue button on the postbattle screen
-var postBattleContinue = document.getElementById("postBattleContinue")
+var postBattleContinueBtn = document.getElementById("postBattleContinueBtn")
 // Links continue button to a function
-//postBattleContinue.addEventListener("click",)
+postBattleContinueBtn.addEventListener("click", postBattleContinue)
 // Variable for the addMoneyBtn
 var addMoneyBtn = document.getElementById("addMoneyBtn")
 // Links button to addMoney function
@@ -794,17 +797,21 @@ function playerDodge() {
 // Function that updates the values displayed on the webpage.
 function updateHPDisplays() {
     if (playerCurrentHP < 1 && enemyCurrentHP < 1) {
-        turnActionDisplay.innerHTML = "It's a draw."
+        postBattleResult.innerHTML = "It's a draw."
         combatBtns.style.display = "none"
+        postBattleScreen.style.display = "block"
     }
     
     if (playerCurrentHP < 1) {
-        turnActionDisplay.innerHTML = "You lose"
+        postBattleResult.innerHTML = "You lose"
         combatBtns.style.display = "none"
+        postBattleScreen.style.display = "block"
     }
     if (enemyCurrentHP < 1) {
-        turnActionDisplay.innerHTML = "You win"
+        postBattleResult.innerHTML = "You win"
         combatBtns.style.display = "none"
+        postBattleScreen.style.display = "block"
+        battleWin();
     }
 
     document.getElementById("playerHPDisplay").innerHTML = playerName + " HP : " + playerCurrentHP + " / " + playerMaxHP;
@@ -881,6 +888,26 @@ function shopReturn() {
 // Function that adds money.
 function addMoney() {
     playerCurrency += 10
+    playerCurrencyDisplay.innerHTML = playerCurrency + " Gold"
+}
+
+function postBattleContinue() {
+    combatBtns.style.display = "none"
+    combatInfo.style.display = "none"
+    overWorldMenu.style.display = "block"
+    postBattleScreen.style.display = "none"
+}
+
+function battleWin() {
+    var goldReward = 0
+    var roll = 3
+    while (roll > 0) {
+        D20roll()
+        goldReward += D20Result
+        roll--
+    }
+    postBattleReward.innerHTML ="You recieve " + goldReward + " gold for your performance.";
+    playerCurrency += goldReward
     playerCurrencyDisplay.innerHTML = playerCurrency + " Gold"
 }
 </script>
