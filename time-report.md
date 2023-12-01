@@ -41,3 +41,8 @@
   - Added currency and a way to add currency if devBtns are enabled.
   - Started working on the shop, added buttons for that screen and made them do what they are supposed to.
   - Some UI improvements
+
+- 2023-12-1 14:00 worked for 2 hours
+  - Implemented a check for if any combatant is below 1, and if that is the case, the other combatant wins.
+  - If the player wins, they are now awarded with gold.
+  
