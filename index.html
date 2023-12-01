@@ -41,6 +41,10 @@
     </div>
     <button id="shopBack" style="display: block;">Go back</button>
 </div>
+<div id ="postBattleScreen">
+    <h2 id="winLoseText"style="position: absolute; left: 50%; top: 20%; height: 5%; transform: translate(-50%, -50%); white-space: nowrap ;"></h2>
+    <button id="postBattleContinue">Continue</button>
+</div>
 <div id="devBtns" style="display: none">
     <!-- A button that adds money to the player, for testing purposes-->
     <button id="addMoneyBtn" style="position: absolute; top: 91%; left: 45%; width: 15%; height: 6%; font-size: x-small;">Add 10 Gold</button>
@@ -87,7 +91,12 @@ var pickCategory = document.getElementById("pickCategory")
 var shopWeaponMenu = document.getElementById("shopWeaponMenu")
 var shopArmorMenu = document.getElementById("shopArmorMenu")
 var devBtns = document.getElementById("devBtns")
+var postBattleScreen = document.getElementById("postBattleScreen")
 
+// Variable for the continue button on the postbattle screen
+var postBattleContinue = document.getElementById("postBattleContinue")
+// Links continue button to a function
+//postBattleContinue.addEventListener("click",)
 // Variable for the addMoneyBtn
 var addMoneyBtn = document.getElementById("addMoneyBtn")
 // Links button to addMoney function
@@ -784,6 +793,20 @@ function playerDodge() {
 }
 // Function that updates the values displayed on the webpage.
 function updateHPDisplays() {
+    if (playerCurrentHP < 1 && enemyCurrentHP < 1) {
+        turnActionDisplay.innerHTML = "It's a draw."
+        combatBtns.style.display = "none"
+    }
+    
+    if (playerCurrentHP < 1) {
+        turnActionDisplay.innerHTML = "You lose"
+        combatBtns.style.display = "none"
+    }
+    if (enemyCurrentHP < 1) {
+        turnActionDisplay.innerHTML = "You win"
+        combatBtns.style.display = "none"
+    }
+
     document.getElementById("playerHPDisplay").innerHTML = playerName + " HP : " + playerCurrentHP + " / " + playerMaxHP;
     document.getElementById("enemyHPDisplay").innerHTML = "Enemy HP : " + enemyCurrentHP + " / " + enemyMaxHP
     if (playerAction[3] > 0) {
