@@ -46,3 +46,7 @@
   - Implemented a check for if any combatant is below 1, and if that is the case, the other combatant wins.
   - If the player wins, they are now awarded with gold.
   
+- 2023-12-7 17:00 worked for 1 hour
+  - Made the enemy health be progressively higher for each battle.
+  - The amount of gold rolls is decided by how many battles has been completed.
+  - A bunch of fixes to some actions not actually dealing the damage it says it should.
