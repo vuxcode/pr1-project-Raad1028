@@ -50,3 +50,6 @@
   - Made the enemy health be progressively higher for each battle.
   - The amount of gold rolls is decided by how many battles has been completed.
   - A bunch of fixes to some actions not actually dealing the damage it says it should.
+
+- 2023-12-12 18:00 worked for 2 hours
+  - Bugtesting and fixing the issues found.
