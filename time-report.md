@@ -53,3 +53,4 @@
 
 - 2023-12-12 18:00 worked for 2 hours
   - Bugtesting and fixing the issues found.
+  - Made sure that you can't continue if a battle ends in a loss or a draw.
